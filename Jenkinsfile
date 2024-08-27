@@ -13,6 +13,7 @@ pipeline {
 
     stages {
         stage('Compile') {
+            agent {label 'linux-slave'}
             steps {
                 script {
                     echo "Compiling the code ${params.AppVersion}"
@@ -22,6 +23,7 @@ pipeline {
         }
         
         stage('UnitTest') {
+            agent any
             when {
                 expression {
                     params.executeTest == true
@@ -36,6 +38,7 @@ pipeline {
         }
         
         stage('Package') {
+            agent {label 'linux-slave'}
             steps {
                 script {
                     echo "Packaging the code for environment: ${params.Env}"
