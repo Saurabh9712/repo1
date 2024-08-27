@@ -42,6 +42,7 @@ pipeline {
                     choice(name: 'Platform',choices: ['EKS','ON-prem K8s','Infra Server'])
                 }
             }
+        }
 
         
             steps {
