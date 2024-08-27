@@ -39,10 +39,11 @@ pipeline {
                 message "select the platform to deploy"
                 ok "version selected"
                 parameters {
-                    choice{name:'Platform',choices: ['EKS','ON-prem K8s','Infra Server']}
+                    choice(name: 'Platform',choices: ['EKS','ON-prem K8s','Infra Server'])
                 }
-
             }
+
+        
             steps {
                echo "deploy the code ${params.Env}"
             }
