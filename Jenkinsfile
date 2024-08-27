@@ -6,15 +6,18 @@ pipeline {
     }
 
     parameters {
-        string(name: 'Env', defaultValue: 'test', description: 'platform to deploy')
-        booleanParam(name: 'executeTest', defaultValue: true, description: 'running test cases')
-        choice(name: 'AppVersion', choices: ['1.1', '1.2', '1.3'], description: 'pick any one')
+        string(name: 'Env', defaultValue: 'test', description: 'Platform to deploy')
+        booleanParam(name: 'executeTest', defaultValue: true, description: 'Running test cases')
+        choice(name: 'AppVersion', choices: ['1.1', '1.2', '1.3'], description: 'Pick any one')
     }
 
     stages {
         stage('Compile') {
             steps {
-               echo "Compiling the code ${params.AppVersion}"
+                script {
+                    echo "Compiling the code ${params.AppVersion}"
+                    sh 'mvn compile'
+                }
             }
         }
         
@@ -25,13 +28,19 @@ pipeline {
                 }
             }
             steps {
-               echo "Running tests"
+                script {
+                    echo "Running tests"
+                    sh 'mvn test'
+                }
             }
         }
         
         stage('Package') {
             steps {
-               echo "Packaging the code for environment: ${params.Env}"
+                script {
+                    echo "Packaging the code for environment: ${params.Env}"
+                    sh 'mvn package'
+                }
             }
         }
         
@@ -44,7 +53,9 @@ pipeline {
                 }
             }
             steps {
-               echo "Deploying the code to ${params.Platform} environment"
+                script {
+                    echo "Deploying the code to ${params.Env} environment"
+                }
             }
         }
     }
